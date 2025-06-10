@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image compression tool to optimize images with adjustable compression levels. Reduce file size without losing quality.">
+    <meta name="keywords" content="image compression, optimize images, reduce image size, image compressor, free image tool">
+    <meta name="author" content="Image Compressor Tool">
+    <meta name="robots" content="index, follow">
+    <title>Image Compressor - Optimize Images Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+            crossorigin="Raksha Ram"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialiased">
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white text-center py-6">
+        <h1 class="text-3xl md:text-4xl font-bold">Image Compressor</h1>
+        <p class="mt-2 text-sm md:text-base">Optimize your images with ease</p>
+    </header>
+    <main class="flex-1 max-w-4xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            <div class="mb-6">
+                <label for="imageInput" class="block text-sm font-medium text-gray-700 mb-2">Select Image</label>
+                <input type="file" id="imageInput" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" aria-label="Upload image for compression">
+            </div>
+            <div class="mb-6">
+                <label for="compressionLevel" class="block text-sm font-medium text-gray-700 mb-2">Compression Level</label>
+                <select id="compressionLevel" class="block w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" aria-label="Select compression level">
+                    <option value="0.8">Low (80% Quality)</option>
+                    <option value="0.6">Medium (60% Quality)</option>
+                    <option value="0.4">High (40% Quality)</option>
+                </select>
+            </div>
+            <button id="compressBtn" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200">Compress Image</button>
+            <div class="mt-8">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Original Image</h3>
+                <img id="preview" class="max-w-full h-auto rounded-md hidden" alt="Original image preview">
+            </div>
+            <div class="mt-8">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Compressed Image</h3>
+                <img id="compressedPreview" class="max-w-full h-auto rounded-md hidden" alt="Compressed image preview">
+                <a id="downloadLink" class="mt-4 inline-block bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 hidden" download="compressed_image.jpg">Download Compressed Image</a>
+            </div>
+        </div>
+        <div class="mt-8 text-center">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </main>
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p class="text-sm">© 2025 Image Compressor. All rights reserved.</p>
+    </footer>
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const compressionLevel = document.getElementById('compressionLevel');
+        const compressBtn = document.getElementById('compressBtn');
+        const preview = document.getElementById('preview');
+        const compressedPreview = document.getElementById('compressedPreview');
+        const downloadLink = document.getElementById('downloadLink');
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    preview.src = reader.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        compressBtn.addEventListener('click', () => {
+            const file = imageInput.files[0];
+            if (!file) {
+                alert('Please select an image first!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    const quality = parseFloat(compressionLevel.value);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    compressedPreview.src = compressedDataUrl;
+                    compressedPreview.classList.remove('hidden');
+                    downloadLink.href = compressedDataUrl;
+                    downloadLink.classList.remove('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
